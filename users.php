@@ -1,5 +1,6 @@
 <?php
   include "./php/conexion.php";
+  $resultado=$conexion->query("select * from usuarios order by id DESC")or die($conexion->error);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,23 +112,60 @@
     <th></th>
     </thead>
     <tbody>
-  
+        <?php
+          while($fila=mysqli_fetch_array($resultado)){
+
+        ?>
     <tr>
-    <td>1</td>
-    <td>Aneth</td>
-    <td>anethochoa@gmail.com</td>
+    <td><?php echo $fila['id'];?></td>
+    <td><?php echo $fila['nombre'].' '.$fila['apellido'];?></td>
+    <td><?php echo $fila['email'];?></td>
     <td>*****</td>
     <td>
-    <button class="btn btn-sm btn-warning"><i class="fa fa-edit"></i></button>
-    <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i></button>
+    <button class="btn btn-sm btn-warning">
+      <i class="fa fa-edit"></i></button>
+    <button class="btn btn-sm btn-danger btnEliminar"
+    data-id="<?php echo $fila['id'];?>"
+    data-toggle="modal" data-target="#modal-eliminar"><i class="fa fa-trash"></i></button>
     </td>
-    </tr></tbody>
+    </tr>
+    <?php
+    } 
+    ?>
+    </tbody>
     </table>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <?php include "./layouts/footer.php";?>
+  <div class="modal fade" id="modal-eliminar">
+        <div class="modal-dialog">
+          <div class="modal-content bg-danger">
+            <div class="modal-header">
+              <h4 class="modal-title">Eliminar Usuario</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="./php/eliminarUsuario.php" method="POST">
+              <div class="modal-body">
+                <p>Deseas eliminar el usuario?</p>
+              
+                  <input type="hidden" id="idEliminar" name="id">
+              
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light" data-dismiss="modal">Cancelar</button>
+                <button type="sibmit" class="btn btn-outline-light">Aceptar</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
  
 
   <!-- Control Sidebar -->
@@ -144,5 +182,14 @@
 <script src="./dashboard/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="./dashboard/dist/js/demo.js"></script>
+<script>
+  var idEliminar=0;
+  $(document).ready(function(){
+    $(".btnEliminar").click (function(){
+      idEliminar=$(this).data('id');
+       $("#idEliminar").val(idEliminar);
+    });
+  });
+</script>
 </body>
 </html>
