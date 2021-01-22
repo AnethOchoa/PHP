@@ -1,3 +1,9 @@
+<?php
+session_start();
+$userData=$_SESSION['userData'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
