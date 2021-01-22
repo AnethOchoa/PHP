@@ -67,6 +67,13 @@
               </div>
             <?php
               }
+            if(isset($_GET['success'])){ 
+            ?>  
+              <div class="alert alert-success">
+                  <b>Listo!</b> <?php echo $_GET['success'];?>
+              </div>
+            <?php
+              }
             ?>
           
           <form action="./php/insertarUsuario.php" class="row" method="POST">
@@ -122,7 +129,13 @@
     <td><?php echo $fila['email'];?></td>
     <td>*****</td>
     <td>
-    <button class="btn btn-sm btn-warning">
+    <button class="btn btn-sm btn-warning btnEditar"
+    data-id="<?php echo $fila['id'];?>"
+    data-nombre="<?php echo $fila['nombre'];?>"
+    data-ap="<?php echo $fila['apellido'];?>"
+    data-email="<?php echo $fila['email'];?>"
+
+    data-toggle="modal" data-target="#modal-editar">
       <i class="fa fa-edit"></i></button>
     <button class="btn btn-sm btn-danger btnEliminar"
     data-id="<?php echo $fila['id'];?>"
@@ -139,6 +152,7 @@
   </div>
   <!-- /.content-wrapper -->
   <?php include "./layouts/footer.php";?>
+  <!-- /.MODAL ELIMINAR -->
   <div class="modal fade" id="modal-eliminar">
         <div class="modal-dialog">
           <div class="modal-content bg-danger">
@@ -165,8 +179,54 @@
         </div>
         <!-- /.modal-dialog -->
       </div>
-      <!-- /.modal -->
- 
+     <!-- /.MODAL EDITAR -->
+  <div class="modal fade" id="modal-editar">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Editar Usuario</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form action="./php/editarUsuario.php" method="POST">
+              <div class="modal-body">
+                
+                <div class="col-12">
+                  <label for="">Nombre</label>
+                  <input type="text" class="form-control" placeholder="Inserta tu nombre" name="nombre" id="nombreEdit" required>
+                </div>
+                <div class="col-12">
+                  <label for="">Apellido</label>
+                  <input type="text" class="form-control" placeholder="Inserta tu apellido" name="ap" required id="apEdit">
+                </div>
+                <div class="col-12">
+                  <label for="">Email</label>
+                  <input type="email" class="form-control" placeholder="Inserta tu email" name="em" required id="emailEdit">
+                </div>
+                <div class="col-12">
+                  <label for="">Password</label>
+                  <input type="password" class="form-control" placeholder="Inserta tu password" name="p1" >
+                </div>
+                <div class="col-12">
+                  <label for="">Confirmar password</label>
+                  <input type="password" class="form-control" placeholder="Confirma tu password" name="p2" >
+                </div>
+            
+
+                  <input type="text" id="idEditar" name="id">
+              
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancelar</button>
+                <button type="sibmit" class="btn btn-outline-primary">Guardar cambios</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
 
   <!-- Control Sidebar -->
   
@@ -188,6 +248,18 @@
     $(".btnEliminar").click (function(){
       idEliminar=$(this).data('id');
        $("#idEliminar").val(idEliminar);
+    });
+    $(".btnEditar").click(function(){
+      var idEdit=$(this).data('id');
+      var nombre=$(this).data('nombre');
+      var ap=$(this).data('ap');
+      var email=$(this).data('email');
+      $("#idEditar").val(idEdit);
+      $("#nombreEdit").val(nombre);
+      $("#apEdit").val(ap);
+      $("#emailEdit").val(email);
+      
+
     });
   });
 </script>
