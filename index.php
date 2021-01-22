@@ -1,5 +1,6 @@
 <?php
 session_start();
+if(!isset($_SESSION['userData'])){header("Location: ./login.php");}
 $userData=$_SESSION['userData'];
 
 ?>

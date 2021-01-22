@@ -36,7 +36,7 @@
                 </a>
               </li>
                 <li class="nav-item">
-                <a href="../../index3.html" class="nav-link">
+                <a href="./productos.php" class="nav-link">
                   <i class="nav-icon fas fa-list"></i>
                   <p>Productos</p>
                 </a>
